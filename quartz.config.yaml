@@ -1,0 +1,238 @@
+# yaml-language-server: $schema=./quartz/plugins/quartz-plugins.schema.json
+# ============================================================
+# 迷宫花园 · 配置
+# 站点：https://knink-owo.github.io/Maze-garden
+# ============================================================
+configuration:
+  pageTitle: 迷宫花园
+  pageTitleSuffix: " · 墨水-knink"
+  enableSPA: true
+  enablePopovers: true
+  analytics: null
+  locale: zh-CN
+  baseUrl: knink-owo.github.io/Maze-garden
+  ignorePatterns:
+    - private
+    - templates
+    - .obsidian
+  theme:
+    fontOrigin: googleFonts
+    cdnCaching: true
+    typography:
+      header: Noto Serif SC
+      body: Noto Sans SC
+      code: JetBrains Mono
+    colors:
+      lightMode:
+        light: "#FAF6EF"
+        lightgray: "#E9E1D3"
+        gray: "#B5A98F"
+        darkgray: "#4A4438"
+        dark: "#2B2620"
+        secondary: "#8C6A3F"
+        tertiary: "#A9885C"
+        highlight: rgba(140, 106, 63, 0.15)
+        textHighlight: "#E8D8A888"
+      darkMode:
+        light: "#1E1B16"
+        lightgray: "#3A352C"
+        gray: "#6E6553"
+        darkgray: "#D6CFC0"
+        dark: "#F0EBE0"
+        secondary: "#C9A96E"
+        tertiary: "#B08D5B"
+        highlight: rgba(201, 169, 110, 0.15)
+        textHighlight: "#8A7A3F88"
+
+plugins:
+  # ---- 内容处理 ----
+  - source: "@quartz-community/created-modified-date"
+    enabled: true
+    options:
+      defaultDateType: modified
+      priority:
+        - frontmatter
+        - git
+        - filesystem
+    order: 10
+  - source: "@quartz-community/syntax-highlighting"
+    enabled: true
+    options:
+      theme:
+        light: github-light
+        dark: github-dark
+      keepBackground: false
+    order: 20
+  - source: "@quartz-community/obsidian-flavored-markdown"
+    enabled: true
+    options:
+      enableInHtmlEmbed: false
+      enableCheckbox: true
+    order: 30
+  - source: "@quartz-community/github-flavored-markdown"
+    enabled: true
+    order: 40
+  - source: "@quartz-community/crawl-links"
+    enabled: true
+    options:
+      markdownLinkResolution: shortest
+    order: 60
+  - source: "@quartz-community/description"
+    enabled: true
+    order: 70
+  - source: "@quartz-community/quartz-fonts"
+    enabled: true
+
+  # ---- 发布控制：全部公开 ----
+  - source: "@quartz-community/remove-draft"
+    enabled: true
+  - source: "@quartz-community/explicit-publish"
+    enabled: false
+  - source: "@quartz-community/unlisted-pages"
+    enabled: true
+    order: 45
+
+  # ---- 链接与站点数据 ----
+  - source: "@quartz-community/alias-redirects"
+    enabled: true
+  - source: "@quartz-community/content-index"
+    enabled: true
+    options:
+      enableSiteMap: true
+      enableRSS: true
+  - source: "@quartz-community/favicon"
+    enabled: true
+  - source: "@quartz-community/og-image"
+    enabled: true
+  - source: "@quartz-community/cname"
+    enabled: false
+
+  # ---- 页面类型 ----
+  - source: "@quartz-community/canvas-page"
+    enabled: true
+  - source: "@quartz-community/content-page"
+    enabled: true
+  - source: "@quartz-community/folder-page"
+    enabled: true
+  - source: "@quartz-community/tag-page"
+    enabled: false
+  - source: "@quartz-community/bases-page"
+    enabled: true
+
+  # ---- 布局组件 ----
+  # 文件树：无导航，禁用
+  - source: "@quartz-community/explorer"
+    enabled: false
+  # 图谱：默认隐藏（局部图盒子被 CSS 隐藏），由头部按钮召唤全局图
+  - source: "@quartz-community/graph"
+    enabled: true
+    options:
+      localGraph:
+        showTags: false
+      globalGraph:
+        showTags: false
+    layout:
+      position: right
+      priority: 10
+  # 搜索：右上角低调图标
+  - source: "@quartz-community/search"
+    enabled: true
+    options:
+      enablePreview: true
+    layout:
+      position: header
+      priority: 10
+  # 反向链接：使用自定义组件（含摘要），社区版禁用
+  - source: "@quartz-community/backlinks"
+    enabled: false
+  - source: "@quartz-community/article-title"
+    enabled: true
+    layout:
+      position: beforeBody
+      priority: 10
+  # 日期：低调小字显示在文章末尾
+  - source: "@quartz-community/content-meta"
+    enabled: true
+    options:
+      showReadingTime: false
+      showComma: true
+    layout:
+      position: afterBody
+      priority: 10
+  - source: "@quartz-community/tag-list"
+    enabled: false
+  - source: "@quartz-community/page-title"
+    enabled: false
+  # 主题切换：右上角
+  - source: "@quartz-community/darkmode"
+    enabled: true
+    layout:
+      position: header
+      priority: 20
+  - source: "@quartz-community/reader-mode"
+    enabled: false
+  # 面包屑：迷宫里不需要，禁用
+  - source: "@quartz-community/breadcrumbs"
+    enabled: false
+  - source: "@quartz-community/comments"
+    enabled: false
+  - source: "@quartz-community/footer"
+    enabled: true
+    options:
+      links:
+        GitHub: https://github.com/knink-owo/Maze-garden
+    layout:
+      position: footer
+      priority: 50
+  - source: "@quartz-community/recent-notes"
+    enabled: false
+  - source: "@quartz-community/spacer"
+    enabled: false
+  - source: "@quartz-community/note-properties"
+    enabled: true
+    options:
+      includeAll: true
+      hidePropertiesView: true
+    order: 5
+  # 本页目录：保留，默认折叠
+  - source: "@quartz-community/table-of-contents"
+    enabled: true
+    options:
+      maxDepth: 3
+      minEntries: 1
+      showByDefault: true
+      collapseByDefault: true
+      layout: modern
+    layout:
+      position: right
+      priority: 30
+
+layout:
+  groups:
+    toolbar:
+      priority: 35
+      direction: row
+      gap: 0.5rem
+  byPageType:
+    "404":
+      positions:
+        beforeBody: []
+        left: []
+        right: []
+    content:
+      positions:
+        left: []
+    folder:
+      exclude:
+        - reader-mode
+      positions:
+        left: []
+        right: []
+    tag:
+      exclude:
+        - reader-mode
+      positions:
+        left: []
+        right: []
+    canvas: {}
+    bases: {}

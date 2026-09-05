@@ -1,0 +1,4 @@
+import { loadQuartzConfig } from "./quartz/plugins/loader/config-loader"
+
+const config = await loadQuartzConfig()
+export default config

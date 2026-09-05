@@ -1,0 +1,189 @@
+@use "./variables.scss" as *;
+
+/* ============================================================
+   迷宫花园 · 主题定制
+   暖纸色 + 深墨色，无导航，只留内容
+   ============================================================ */
+
+/* ---------- 布局：去掉左侧栏（迷宫没有导航） ---------- */
+.sidebar.left {
+  display: none !important;
+}
+
+@media all and (min-width: 800px) {
+  .page > #quartz-body {
+    grid-template-columns: minmax(0, 1fr) $sidePanelWidth !important;
+    grid-template-areas:
+      "grid-header grid-sidebar-right"
+      "grid-center grid-sidebar-right"
+      "grid-footer grid-sidebar-right" !important;
+  }
+}
+
+/* 正文宽度：专注排版 */
+.center > article {
+  max-width: 46rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* 图谱：只保留全局图浮层，隐藏局部图盒子与自带图标（由头部按钮召唤） */
+.graph > .graph-outer {
+  display: none !important;
+}
+.graph > h3 {
+  display: none !important;
+}
+
+/* ---------- 右上角图标簇 ---------- */
+.maze-icons {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  margin-left: auto;
+}
+.maze-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  padding: 0.4rem;
+  border: none;
+  background: none;
+  color: var(--dark);
+  opacity: 0.5;
+  cursor: pointer;
+  border-radius: 6px;
+  transition:
+    opacity 0.2s ease,
+    background-color 0.2s ease;
+}
+.maze-icon:hover {
+  opacity: 1;
+  background-color: var(--lightgray);
+}
+.maze-icon svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* ---------- 反向链接 ---------- */
+.maze-backlinks {
+  margin-top: 2.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--lightgray);
+}
+.maze-backlinks h3 {
+  font-size: 1rem;
+  color: var(--gray);
+  margin-bottom: 0.75rem;
+  font-weight: 600;
+}
+.maze-backlinks ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+.maze-backlinks-desc {
+  margin: 0.2rem 0 0;
+  font-size: 0.9rem;
+  color: var(--gray);
+}
+
+/* ---------- 探索进度 ---------- */
+.maze-explored {
+  text-align: right;
+  font-size: 0.85rem;
+  color: var(--gray);
+  margin-top: 0.5rem;
+}
+
+/* ---------- 全站统计 ---------- */
+.maze-stats {
+  font-size: 0.85rem;
+  color: var(--gray);
+}
+
+/* ---------- 最近更新浮层 ---------- */
+.maze-recent-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9998;
+  background: rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(3px);
+  display: none;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 12vh 1rem 1rem;
+}
+.maze-recent-overlay.active {
+  display: flex;
+}
+.maze-recent-panel {
+  background: var(--light);
+  border: 1px solid var(--lightgray);
+  border-radius: 12px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.18);
+  width: min(560px, 100%);
+  max-height: 70vh;
+  overflow-y: auto;
+  padding: 1.2rem 1.4rem;
+}
+.maze-recent-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.maze-recent-head h3 {
+  margin: 0;
+  font-size: 1.1rem;
+}
+.maze-recent-close {
+  border: none;
+  background: none;
+  color: var(--gray);
+  font-size: 1rem;
+  cursor: pointer;
+}
+.maze-recent-close:hover {
+  color: var(--dark);
+}
+.maze-recent-list {
+  list-style: none;
+  margin: 1rem 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+.maze-recent-list li a {
+  font-weight: 600;
+}
+.maze-recent-desc {
+  margin: 0.15rem 0 0;
+  font-size: 0.9rem;
+  color: var(--gray);
+}
+.maze-recent-list time {
+  display: block;
+  font-size: 0.78rem;
+  color: var(--gray);
+  margin-top: 0.1rem;
+}
+
+/* ---------- 细节 ---------- */
+::selection {
+  background: var(--highlight);
+}
+
+pre {
+  border-radius: 8px;
+}
+
+.popover {
+  border-radius: 10px;
+}
