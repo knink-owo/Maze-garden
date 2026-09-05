@@ -99,7 +99,7 @@ plugins:
     enabled: true
     options:
       enableSiteMap: true
-      enableRSS: true
+      enableRSS: false
   - source: "@quartz-community/favicon"
     enabled: true
   - source: "@quartz-community/og-image"
@@ -123,7 +123,7 @@ plugins:
   # 文件树：无导航，禁用
   - source: "@quartz-community/explorer"
     enabled: false
-  # 图谱：默认隐藏（局部图盒子被 CSS 隐藏），由头部按钮召唤全局图
+  # 图谱：局部图盒子被 CSS 隐藏，仅由头部按钮召唤全屏全局图
   - source: "@quartz-community/graph"
     enabled: true
     options:
@@ -132,8 +132,8 @@ plugins:
       globalGraph:
         showTags: false
     layout:
-      position: right
-      priority: 10
+      position: header
+      priority: 25
   # 搜索：右上角低调图标
   - source: "@quartz-community/search"
     enabled: true
@@ -194,7 +194,7 @@ plugins:
       includeAll: true
       hidePropertiesView: true
     order: 5
-  # 本页目录：保留，默认折叠
+  # 本页目录：仅保留转换器（提供 fileData.toc 与标题锚点），UI 由自定义 TocDrawer 渲染
   - source: "@quartz-community/table-of-contents"
     enabled: true
     options:
@@ -203,9 +203,6 @@ plugins:
       showByDefault: true
       collapseByDefault: true
       layout: modern
-    layout:
-      position: right
-      priority: 30
 
 layout:
   groups:
@@ -222,6 +219,7 @@ layout:
     content:
       positions:
         left: []
+        right: []
     folder:
       exclude:
         - reader-mode

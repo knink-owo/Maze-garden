@@ -20,7 +20,7 @@ npx quartz sync       # 提交并推送（触发 GitHub Actions 自动部署）
 content/              # Obsidian vault（你的全部文章，中文文件名）
   index.md            # 入口文章（主页）
   assets/             # 图片附件（![[图片.png]] 自动渲染）
-quartz/components/maze/  # 迷宫专属自定义组件（图标簇/反链/探索进度/统计/最近更新）
+quartz/components/maze/  # 迷宫专属自定义组件（图标簇/反链/探索进度/统计/最近更新/目录抽屉）
 quartz/styles/custom.scss # 主题样式（暖纸色 + 深墨色）
 quartz/static/music/     # 背景音乐（放入后右上角自动出现音乐图标）
 quartz.config.yaml       # 站点配置

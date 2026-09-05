@@ -2,11 +2,10 @@ import fs from "fs"
 import path from "path"
 import { QuartzComponentConstructor, QuartzComponentProps } from "../types"
 import { classNames } from "../../util/lang"
-import { pathToRoot } from "../../util/path"
 
 /**
  * 迷宫图标簇（右上角）：
- * 🎵 音乐 · 🎲 随机漫步 · 🕘 最近更新 · 🕸 关系图谱 · 📡 RSS
+ * 🎵 音乐 · 🎲 随机漫步 · 🕘 最近更新 · 🕸 关系图谱
  * 音乐按钮仅当 quartz/static/music/ 下存在音频文件时才渲染。
  */
 export interface MazeIconsOptions {
@@ -33,8 +32,6 @@ const MazeIcons = ((opts?: MazeIconsOptions) => {
           !s.endsWith("/index") &&
           (excludeCurrent ? s !== fileData.slug : true),
       )
-    const rssHref = `${pathToRoot(fileData.slug)}index.xml`
-
     return (
       <div class={classNames("maze-icons")}>
         {musicFiles.length > 0 && (
@@ -107,22 +104,6 @@ const MazeIcons = ((opts?: MazeIconsOptions) => {
             <path d="M7.5 6h9" />
           </svg>
         </button>
-        <a class="maze-icon" href={rssHref} aria-label="RSS 订阅" title="RSS 订阅">
-          <svg
-            width="16"
-            height="16"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          >
-            <path d="M4 11a9 9 0 0 1 9 9" />
-            <path d="M4 4a16 16 0 0 1 16 16" />
-            <circle cx="5" cy="19" r="1.5" fill="currentColor" stroke="none" />
-          </svg>
-        </a>
         <script
           type="application/json"
           class="maze-data"
@@ -134,9 +115,7 @@ const MazeIcons = ((opts?: MazeIconsOptions) => {
             type="application/json"
             class="maze-data"
             data-key="music"
-            dangerouslySetInnerHTML={{
-              __html: JSON.stringify(musicFiles.map((f) => `static/music/${f}`)),
-            }}
+            dangerouslySetInnerHTML={{ __html: JSON.stringify(musicFiles) }}
           />
         )}
       </div>
@@ -144,6 +123,29 @@ const MazeIcons = ((opts?: MazeIconsOptions) => {
   }
 
   Component.afterDOMLoaded = `(function () {
+  // ------------------------------------------------------------------
+  // 迷宫花园 · 子路径修正：GitHub Pages 项目站点（/Maze-garden）下，
+  // 相对链接（./... ../...）依赖当前 URL 的目录形态，进入 URL 异常时
+  // 会解析错位、丢失子路径导致 404。这里在页面加载时把所有内部相对
+  // 链接转成"带子路径的绝对链接"，之后不再受当前 URL 影响。
+  function normalizeInternalLinks() {
+    var base = document.body.getAttribute('data-basepath') || ''
+    var sel = 'a.internal, a[href^="./"], a[href^="../"], [src^="./"], [src^="../"]'
+    document.querySelectorAll(sel).forEach(function (el) {
+      var attr = el.tagName === 'A' ? 'href' : 'src'
+      var href = el.getAttribute(attr)
+      if (!href) return
+      if (/^(https?:|mailto:|tel:|#|\\/)/i.test(href)) return
+      var u
+      try { u = new URL(href, window.location.href) } catch (e) { return }
+      var p = u.pathname
+      if (base && p.indexOf(base) !== 0) return
+      el.setAttribute(attr, p + u.hash)
+    })
+  }
+  document.addEventListener('nav', normalizeInternalLinks)
+  normalizeInternalLinks()
+  // ------------------------------------------------------------------
   function getData(key) {
     var el = document.querySelector('.maze-data[data-key="' + key + '"]')
     if (!el) return null
@@ -163,7 +165,8 @@ const MazeIcons = ((opts?: MazeIconsOptions) => {
       var tracks = getData('music')
       if (!tracks || !tracks.length) { console.info('[迷宫花园] 未找到音乐，请把音频放到 quartz/static/music/') ; return }
       audio = document.createElement('audio')
-      audio.src = tracks[0]
+      var base = document.body.getAttribute('data-basepath') || ''
+      audio.src = base + '/static/music/' + tracks[0]
       audio.loop = true
       audio.volume = 0.35
       audio.preload = 'none'

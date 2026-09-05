@@ -36,6 +36,7 @@ import Backlinks from "../../components/maze/Backlinks"
 import ExploredCounter from "../../components/maze/ExploredCounter"
 import SiteStats from "../../components/maze/SiteStats"
 import RecentPanel from "../../components/maze/RecentPanel"
+import TocDrawer from "../../components/maze/TocDrawer"
 
 const CONFIG_YAML_PATH = path.join(process.cwd(), "quartz.config.yaml")
 const DEFAULT_CONFIG_YAML_PATH = path.join(process.cwd(), "quartz.config.default.yaml")
@@ -529,6 +530,7 @@ export async function loadQuartzConfig(
       ExploredCounter(),
       SiteStats(),
       RecentPanel(),
+      TocDrawer(),
     ],
   })
 
