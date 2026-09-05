@@ -20,11 +20,34 @@
   }
 }
 
-/* 正文宽度：专注排版 */
-.center > article {
+/* ---------- 阅读列：统一 46rem，标题/正文/页尾对齐 ---------- */
+.center > article,
+.page-header .popover-hint,
+.page-footer {
   max-width: 46rem;
   margin-left: auto;
   margin-right: auto;
+  width: 100%;
+}
+
+/* ---------- 页头：清除社区插件全局 header{} 的污染，恢复横向布局 ---------- */
+.page-header header {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  justify-content: flex-end !important;
+  gap: 0.75rem !important;
+  margin: 0 0 0.5rem 0 !important;
+  padding: 0 !important;
+  border: none !important;
+  border-bottom: none !important;
+  border-radius: 0 !important;
+  background: none !important;
+  position: static !important;
+  font-weight: 400 !important;
+  text-align: left !important;
+  cursor: default !important;
+  color: var(--dark) !important;
 }
 
 /* 图谱：只保留全局图浮层，隐藏局部图盒子与自带图标（由头部按钮召唤） */
@@ -40,7 +63,6 @@
   display: flex;
   align-items: center;
   gap: 0.25rem;
-  margin-left: auto;
 }
 .maze-icon {
   display: inline-flex;

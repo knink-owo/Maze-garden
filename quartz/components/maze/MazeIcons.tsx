@@ -26,7 +26,13 @@ const MazeIcons = ((opts?: MazeIconsOptions) => {
     const { fileData, allFiles } = props
     const slugs = allFiles
       .map((f) => f.slug)
-      .filter((s) => (excludeCurrent ? s !== fileData.slug : true))
+      .filter(
+        (s) =>
+          s !== "404" &&
+          s !== "index" &&
+          !s.endsWith("/index") &&
+          (excludeCurrent ? s !== fileData.slug : true),
+      )
     const rssHref = `${pathToRoot(fileData.slug)}index.xml`
 
     return (
@@ -117,13 +123,21 @@ const MazeIcons = ((opts?: MazeIconsOptions) => {
             <circle cx="5" cy="19" r="1.5" fill="currentColor" stroke="none" />
           </svg>
         </a>
-        <script type="application/json" class="maze-data" data-key="slugs">
-          {JSON.stringify(slugs)}
-        </script>
+        <script
+          type="application/json"
+          class="maze-data"
+          data-key="slugs"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(slugs) }}
+        />
         {musicFiles.length > 0 && (
-          <script type="application/json" class="maze-data" data-key="music">
-            {JSON.stringify(musicFiles.map((f) => `static/music/${f}`))}
-          </script>
+          <script
+            type="application/json"
+            class="maze-data"
+            data-key="music"
+            dangerouslySetInnerHTML={{
+              __html: JSON.stringify(musicFiles.map((f) => `static/music/${f}`)),
+            }}
+          />
         )}
       </div>
     )
@@ -171,8 +185,11 @@ const MazeIcons = ((opts?: MazeIconsOptions) => {
       var ov = document.querySelector('.maze-recent-overlay')
       if (ov) ov.classList.toggle('active')
     } else if (action === 'graph') {
-      var icon = document.querySelector('.global-graph-icon')
-      if (icon) icon.click()
+      // 图谱脚本在事件派发中同步 click 会失效，延迟一拍再触发
+      setTimeout(function () {
+        var icon = document.querySelector('.global-graph-icon')
+        if (icon) icon.click()
+      }, 0)
     } else if (action === 'music') {
       toggleMusic()
     }
