@@ -27,6 +27,11 @@ export default (() => {
     const baseDir = fileData.slug === "404" ? path : pathToRoot(fileData.slug!)
     const iconPath = joinSegments(baseDir, "static/icon.png")
 
+    // 迷宫花园 · 修复：GitHub Pages 子路径下相对链接依赖"当前 URL 目录"，
+    // 处于无尾斜杠/异常 URL 状态时 ../ 会解析错位、丢失子路径导致 404。
+    // 生产环境注入 <base>，让所有相对链接统一以子路径为基准；开发服务器不加。
+    const productionBasePath = ctx.argv.serve ? "" : url.pathname.replace(/\/$/, "")
+
     // Url of current page
     const socialUrl =
       fileData.slug === "404" ? url.toString() : joinSegments(url.toString(), fileData.slug!)
@@ -43,6 +48,7 @@ export default (() => {
       <head>
         <title>{title}</title>
         <meta charSet="utf-8" />
+        {productionBasePath && <base href={`${productionBasePath}/`} />}
         {coreStylesheet && <link rel="preload" href={coreStylesheet} as="style" />}
         {coreScript && coreScript.contentType === "external" && (
           <link rel="preload" href={coreScript.src} as="script" />
