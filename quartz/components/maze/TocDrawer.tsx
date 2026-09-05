@@ -29,6 +29,7 @@ const TocDrawer = (() => {
     const toc = (fileData.toc ?? []) as { depth: number; text: string; slug: string }[]
     const words = countWords(tree)
     const wordsText = words >= 10000 ? `${(words / 10000).toFixed(1)} 万` : String(words)
+    const title = fileData.frontmatter?.title ?? fileData.title ?? fileData.slug
 
     return (
       <div class={classNames("maze-toc")}>
@@ -36,6 +37,7 @@ const TocDrawer = (() => {
           目录
         </button>
         <div class="maze-toc-drawer" role="dialog" aria-label="目录">
+          <div class="maze-toc-articletitle">{title}</div>
           <div class="maze-toc-head">
             <span class="maze-toc-title">目录</span>
             <span class="maze-toc-meta">{wordsText} 字</span>
@@ -51,7 +53,6 @@ const TocDrawer = (() => {
           ) : (
             <p class="maze-toc-empty">（本文没有小标题）</p>
           )}
-          <p class="maze-toc-words">本文约 {wordsText} 字</p>
         </div>
       </div>
     )

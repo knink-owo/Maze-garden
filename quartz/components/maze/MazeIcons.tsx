@@ -35,8 +35,15 @@ const MazeIcons = ((opts?: MazeIconsOptions) => {
     return (
       <div class={classNames("maze-icons")}>
         {musicFiles.length > 0 && (
-          <button class="maze-icon" data-action="music" aria-label="音乐" title="音乐">
+          <button
+            class="maze-icon"
+            data-action="music"
+            aria-label="音乐"
+            aria-pressed="false"
+            title="音乐"
+          >
             <svg
+              class="maze-note"
               width="16"
               height="16"
               viewBox="0 0 24 24"
@@ -50,6 +57,11 @@ const MazeIcons = ((opts?: MazeIconsOptions) => {
               <circle cx="6" cy="18" r="3" />
               <circle cx="18" cy="16" r="3" />
             </svg>
+            <span class="maze-eq" aria-hidden="true">
+              <span></span>
+              <span></span>
+              <span></span>
+            </span>
           </button>
         )}
         <button class="maze-icon" data-action="random" aria-label="随机漫步" title="随机漫步">
@@ -160,6 +172,13 @@ const MazeIcons = ((opts?: MazeIconsOptions) => {
     if (window.spaNavigate) { window.spaNavigate(new URL(url, window.location.origin)) } else { window.location.assign(url) }
   }
   var audio = null
+  function syncMusicButton() {
+    var playing = !!(audio && !audio.paused)
+    document.querySelectorAll('.maze-icon[data-action="music"]').forEach(function (b) {
+      b.classList.toggle('playing', playing)
+      b.setAttribute('aria-pressed', playing ? 'true' : 'false')
+    })
+  }
   function toggleMusic() {
     if (!audio) {
       var tracks = getData('music')
@@ -173,7 +192,9 @@ const MazeIcons = ((opts?: MazeIconsOptions) => {
       document.body.appendChild(audio)
     }
     if (audio.paused) { audio.play().catch(function (e) { console.info('[迷宫花园] 播放失败', e) }) } else { audio.pause() }
+    syncMusicButton()
   }
+  document.addEventListener('nav', syncMusicButton)
   document.addEventListener('click', function (ev) {
     var btn = ev.target && ev.target.closest ? ev.target.closest('.maze-icon') : null
     if (!btn) return
