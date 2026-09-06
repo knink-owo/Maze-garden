@@ -1,4 +1,5 @@
 [下载python官方安装与管理工具](https://www.python.org/downloads/release/pymanager-263/)
+[官方文档](https://docs.python.org/dev/using/windows.html)
 - 管理器会自动把该版本加入系统路径
 - 管理器会自动更新
 
@@ -48,4 +49,7 @@ py -0p
 # C:\Users\你的用户名\AppData\Local\Programs\Python\Python314
 ```
 
-
+其他
+```bash
+py help 
+```
