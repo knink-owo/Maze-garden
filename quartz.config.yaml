@@ -46,15 +46,10 @@ configuration:
 
 plugins:
   # ---- 内容处理 ----
+  # 日期推断已改用自定义转换器 quartz/plugins/transformers/mazeDates.ts
+  # （git 首次提交≈创建时间、最后提交≈修改时间），社区版插件停用
   - source: "@quartz-community/created-modified-date"
-    enabled: true
-    options:
-      defaultDateType: modified
-      priority:
-        - frontmatter
-        - git
-        - filesystem
-    order: 10
+    enabled: false
   - source: "@quartz-community/syntax-highlighting"
     enabled: true
     options:
@@ -150,15 +145,10 @@ plugins:
     layout:
       position: beforeBody
       priority: 10
-  # 日期：低调小字显示在文章末尾
+  # 日期：自定义 ArticleDates 组件显示创建时间+更新时间（文章末尾）
+  # 社区 content-meta 只显示单个日期且空文章不渲染，停用
   - source: "@quartz-community/content-meta"
-    enabled: true
-    options:
-      showReadingTime: false
-      showComma: true
-    layout:
-      position: afterBody
-      priority: 10
+    enabled: false
   - source: "@quartz-community/tag-list"
     enabled: false
   - source: "@quartz-community/page-title"

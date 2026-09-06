@@ -37,6 +37,8 @@ import ExploredCounter from "../../components/maze/ExploredCounter"
 import SiteStats from "../../components/maze/SiteStats"
 import RecentPanel from "../../components/maze/RecentPanel"
 import TocDrawer from "../../components/maze/TocDrawer"
+import ArticleDates from "../../components/maze/ArticleDates"
+import { MazeDates } from "../transformers/mazeDates"
 
 const CONFIG_YAML_PATH = path.join(process.cwd(), "quartz.config.yaml")
 const DEFAULT_CONFIG_YAML_PATH = path.join(process.cwd(), "quartz.config.default.yaml")
@@ -498,7 +500,8 @@ export async function loadQuartzConfig(
 
   // Import built-in plugins
   const builtinPlugins = await import("../index")
-  const builtinTransformers: unknown[] = []
+  // 迷宫花园 · 日期推断：frontmatter → git 首次/最后提交 → 文件系统（替代社区 created-modified-date）
+  const builtinTransformers: unknown[] = [MazeDates()]
   const builtinEmitters = [
     builtinPlugins.ComponentResources(),
     builtinPlugins.Assets(),
@@ -525,6 +528,8 @@ export async function loadQuartzConfig(
   const withMazeAfterBody = (pageTypeLayout: Partial<FullPageLayout>): Partial<FullPageLayout> => ({
     ...pageTypeLayout,
     afterBody: [
+      // 文章底部日期：创建时间 + 更新时间（替代社区 content-meta）
+      ArticleDates(),
       ...(pageTypeLayout.afterBody ?? layout.defaults.afterBody ?? []),
       Backlinks(),
       ExploredCounter(),
