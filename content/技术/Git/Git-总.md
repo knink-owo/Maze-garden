@@ -11,10 +11,17 @@ permalink: Git-in
 
 ## 参考资料
 [Git官网](https://git-scm.com/)
+
 [Git 教程 | 菜鸟教程](https://www.runoob.com/git/git-tutorial.html)
+
 [Git 简明指南](https://www.runoob.com/manual/git-guide/) 
+
 [图解Git](https://marklodato.github.io/visual-git-guide/index-zh-cn.html)
+
 [Git 五分钟教程](https://www.runoob.com/w3cnote/git-five-minutes-tutorial.html)：×
+
 [Git GUI使用方法](https://www.runoob.com/w3cnote/git-gui-window.html)
+
 [Github 简明教程](https://www.runoob.com/w3cnote/git-guide.html)
+
 [Git+Github核心概念大串讲，从零到一全攻略，详细实战教程_哔哩哔哩_bilibili](https://www.bilibili.com/video/BV1ySLc6QEcB/?spm_id_from=333.337.search-card.all.click&vd_source=7ef34ead8af5399cefaf24217fa6836c)：git+vscode+ai提示词
