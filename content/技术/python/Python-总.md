@@ -1,6 +1,12 @@
 ---
 permalink: Python-in
 ---
-学习笔记
+## 基础学习
+
+
+## 工程化
 [[python-解释器]]
-[[python-环境管理]]
+
+[[uv 速通]]
+
+conda，pip，venv
